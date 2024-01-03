@@ -22,3 +22,15 @@ app.listen(3000, () => {
 
 app.use("/api/user", userRouter)
 app.use("/api/auth", authRouter)
+
+app.use((err, req, res, next) => {
+    const statusCode = err.statusCode || 500
+    const message = err.message || "Generic error"
+    return res.status(statusCode).json({
+        success: false,
+        //bis es6 musste es heissen statusCode: statusCode.
+        //seither ist es so ok, wenn key und variable gleich sind
+        statusCode,
+        message
+    })
+})
