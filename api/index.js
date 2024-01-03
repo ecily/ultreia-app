@@ -3,6 +3,7 @@ import mongoose from "mongoose"
 import dotenv from "dotenv"
 dotenv.config()
 import userRouter from "./routes/user.route.js"
+import authRouter from "./routes/auth.route.js"
 
 mongoose.connect(process.env.MONGO).then(() => {
     console.log("connected to mongo")
@@ -11,16 +12,13 @@ mongoose.connect(process.env.MONGO).then(() => {
 })
 
 const app = express()
+//default ändern, so dass auch json an den server gesendet werden darf aus postman
+app.use(express.json())
+
 app.listen(3000, () => {
     console.log("Server is running on port 3000")
 })
 
-//als beispiel, in der praxis werden routes und die funktionen in eigenen folder und files gelegt
-//app.get("/test", (req, res) => {
-    //res.send("Hello ecily")
-    //res.json({
-       // message: "hello world"
-    //})
-//})
 
 app.use("/api/user", userRouter)
+app.use("/api/auth", authRouter)
