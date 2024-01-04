@@ -1,13 +1,17 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-
+import { useDispatch, useSelector } from "react-redux"
+import { signInStart, signInSuccess, signInFailure } from "../redux/user/userSlice"
 
 export default function SignIn() {
   const [formData, setFormData] = useState({})
-  const [error, setError] = useState(null)
-  const [loading, setLoading] = useState(false)
+  //nicht mehr notwendig wegen redux
+  //const [error, setError] = useState(null)
+  //const [loading, setLoading] = useState(false)
+  //stattdessen
+  const { loading, error } = useSelector((state) => state.user)
   const navigate = useNavigate()
-
+  const dispatch = useDispatch()
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -19,7 +23,9 @@ export default function SignIn() {
     e.preventDefault()
 
     try {
-    setLoading(true)
+    //setloading nicht mehr notwendig, wegen redux
+    //setLoading(true)
+    dispatch(signInStart())
     //fetch method für die api route
     const res = await fetch("/api/auth/signin", {
       method: "POST",
@@ -31,16 +37,22 @@ export default function SignIn() {
     const data = await res.json()
     //data.success aus der backend index.js middleware
     if (data.success === false) {
-      setError(data.message)
-      setLoading(false)
+      //nicht mehr notwendig wegen redux
+      //setError(data.message)
+      //setLoading(false)
+      dispatch(signInFailure(data.message))
       return
     }
-    setLoading(false)
-    setError(null)
+    //nicht mehr notwenig wegen redux
+    //setLoading(false)
+    //setError(null)
+    dispatch(signInSuccess(data))
     navigate("/")
   } catch (error) {
-    setLoading(false)
-    setError(error.message)
+    //nicht mehr notwendig wegen redux
+    //setLoading(false)
+    //setError(error.message)
+    dispatch(signInFailure(error.message))
   }
     //console.log(data)
   }
