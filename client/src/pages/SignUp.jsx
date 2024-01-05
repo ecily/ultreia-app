@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import OAuth from "../components/OAuth"
 
 
 export default function SignUp() {
@@ -80,6 +81,7 @@ export default function SignUp() {
         <Link to={"/sign-in"}>
           <span className="text-blue-700">Sign in</span>
         </Link>
+        <OAuth />
       </div>
       {error && <p className="text-red-500 mt-5">{error}</p>}
     </div>
