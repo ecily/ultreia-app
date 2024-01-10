@@ -4,6 +4,7 @@ import dotenv from "dotenv"
 dotenv.config()
 import userRouter from "./routes/user.route.js"
 import authRouter from "./routes/auth.route.js"
+import cookieParser from "cookie-parser"
 
 mongoose.connect(process.env.MONGO).then(() => {
     console.log("connected to mongo")
@@ -14,6 +15,8 @@ mongoose.connect(process.env.MONGO).then(() => {
 const app = express()
 //default ändern, so dass auch json an den server gesendet werden darf aus postman
 app.use(express.json())
+
+app.use(cookieParser())
 
 app.listen(3000, () => {
     console.log("Server is running on port 3000")
